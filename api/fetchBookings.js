@@ -1,9 +1,10 @@
 const { google } = require('googleapis');
+const { GoogleAuth } = require('google-auth-library');
 
 const sheets = google.sheets('v4');
 
 async function authenticate() {
-  const auth = new google.auth.GoogleAuth({
+  const auth = new GoogleAuth({
     credentials: {
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
       private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
@@ -15,18 +16,18 @@ async function authenticate() {
 
 module.exports = async (req, res) => {
   console.log('fetchBookings endpoint hit');
-  const authClient = await authenticate();
-  const sheetId = process.env.GOOGLE_SHEETS_SHEET_ID;
-  const userId = req.query.userId;
-  console.log('User ID:', userId);
-
-  const request = {
-    spreadsheetId: sheetId,
-    range: 'Sheet1!A:E',
-    auth: authClient,
-  };
-
   try {
+    const authClient = await authenticate();
+    const sheetId = process.env.GOOGLE_SHEETS_SHEET_ID;
+    const userId = req.query.userId;
+    console.log('User ID:', userId);
+
+    const request = {
+      spreadsheetId: sheetId,
+      range: 'Sheet1!A:E',
+      auth: authClient,
+    };
+
     const response = await sheets.spreadsheets.values.get(request);
     const rows = response.data.values;
     console.log('Rows:', rows);
