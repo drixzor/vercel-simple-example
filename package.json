@@ -1,6 +1,12 @@
 {
-  "name": "vercel-simple-example",
+  "name": "webflow-booking-history",
   "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT"
+  "description": "Serverless function to fetch booking history from Google Sheets",
+  "main": "fetchBookings.js",
+  "scripts": {
+    "start": "node fetchBookings.js"
+  },
+  "dependencies": {
+    "googleapis": "^39.2.0"
+  }
 }
