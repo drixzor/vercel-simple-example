@@ -20,6 +20,14 @@ module.exports = async (req, res) => {
     }
 
     console.log('fetchBookings endpoint hit');
+
+    // Check environment variables
+    if (!process.env.GOOGLE_SERVICE_ACCOUNT_KEY || !process.env.GOOGLE_SHEETS_SHEET_ID) {
+        console.error('Environment variables are not set correctly.');
+        res.status(500).json({ error: 'Environment variables are not set correctly.' });
+        return;
+    }
+
     try {
         const authClient = await authenticate();
         const sheetId = process.env.GOOGLE_SHEETS_SHEET_ID;
@@ -36,7 +44,7 @@ module.exports = async (req, res) => {
         const rows = response.data.values;
         console.log('Rows:', rows);
 
-        if (rows.length) {
+        if (rows && rows.length) {
             const bookings = rows.filter(row => row[0] === userId);
             res.status(200).json(bookings);
         } else {
