@@ -10,10 +10,8 @@ async function authenticate() {
 }
 
 module.exports = async (req, res) => {
-    console.log('fetchBookings endpoint hit');
-    
-    res.setHeader('Access-Control-Allow-Origin', '*'); // Allow all origins
-    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
     if (req.method === 'OPTIONS') {
@@ -21,6 +19,7 @@ module.exports = async (req, res) => {
         return;
     }
 
+    console.log('fetchBookings endpoint hit');
     try {
         const authClient = await authenticate();
         const sheetId = process.env.GOOGLE_SHEETS_SHEET_ID;
