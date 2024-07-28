@@ -4,12 +4,20 @@
     {
       "src": "api/hello.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "api/fetchBookings.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/hello",
       "dest": "api/hello.js"
+    },
+    {
+      "src": "/api/fetchBookings",
+      "dest": "api/fetchBookings.js"
     }
   ]
 }
