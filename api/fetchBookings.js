@@ -16,6 +16,18 @@ async function authenticate() {
 
 module.exports = async (req, res) => {
   console.log('fetchBookings endpoint hit');
+
+  // Add CORS headers
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // Handle preflight request
+  if (req.method === 'OPTIONS') {
+    res.status(204).end();
+    return;
+  }
+
   try {
     const authClient = await authenticate();
     const sheetId = process.env.GOOGLE_SHEETS_SHEET_ID;
