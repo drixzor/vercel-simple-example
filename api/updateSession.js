@@ -1,5 +1,6 @@
 const { google } = require('googleapis');
 const { GoogleAuth } = require('google-auth-library');
+const cors = require('micro-cors')();
 
 const sheets = google.sheets('v4');
 
@@ -14,16 +15,11 @@ async function authenticate() {
   return auth.getClient();
 }
 
-module.exports = async (req, res) => {
+const handler = async (req, res) => {
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
-
-  // Add CORS headers
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   const { index, session } = req.body;
 
@@ -54,3 +50,5 @@ module.exports = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+module.exports = cors(handler);
