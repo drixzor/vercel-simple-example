@@ -12,6 +12,10 @@
     {
       "src": "api/fetchSessions.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "api/updateSession.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
@@ -26,6 +30,10 @@
     {
       "src": "/api/fetchSessions",
       "dest": "api/fetchSessions.js"
+    },
+    {
+      "src": "/api/updateSession",
+      "dest": "api/updateSession.js"
     }
   ]
 }
