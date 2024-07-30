@@ -31,12 +31,10 @@ module.exports = async (req, res) => {
   try {
     const authClient = await authenticate();
     const sheetId = process.env.GOOGLE_SHEETS_SHEET_ID;
-    const userId = req.query.userId;
-    console.log('User ID:', userId);
 
     const request = {
       spreadsheetId: sheetId,
-      range: 'Sheet2!A:E',
+      range: 'Sheet2!A:G',
       auth: authClient,
     };
 
@@ -44,9 +42,8 @@ module.exports = async (req, res) => {
     const rows = response.data.values;
     console.log('Rows:', rows);
 
-    if (rows.length) {
-      const sessions = rows.filter(row => row[0] === userId);
-      res.status(200).json(sessions);
+    if (rows && rows.length) {
+      res.status(200).json(rows);
     } else {
       res.status(404).json({ error: 'No sessions found' });
     }
