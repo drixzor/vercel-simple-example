@@ -1,10 +1,11 @@
 {
   "name": "webflow-booking-history",
   "version": "1.0.0",
-  "description": "Serverless function to fetch booking history from Google Sheets",
+  "description": "Serverless function to fetch booking history and sessions from Google Sheets",
   "main": "fetchBookings.js",
   "scripts": {
-    "start": "node fetchBookings.js"
+    "start:bookings": "node fetchBookings.js",
+    "start:sessions": "node fetchSessions.js"
   },
   "dependencies": {
     "googleapis": "^39.2.0",
