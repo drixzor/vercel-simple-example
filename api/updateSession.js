@@ -1,6 +1,8 @@
 const { google } = require('googleapis');
 const { GoogleAuth } = require('google-auth-library');
-const cors = require('micro-cors')();
+const microCors = require('micro-cors');
+
+const cors = microCors({ allowMethods: ['GET', 'POST', 'OPTIONS'], origin: '*' });
 
 const sheets = google.sheets('v4');
 
@@ -16,6 +18,14 @@ async function authenticate() {
 }
 
 const handler = async (req, res) => {
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.status(204).end();
+    return;
+  }
+
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
@@ -44,9 +54,11 @@ const handler = async (req, res) => {
     const response = await sheets.spreadsheets.values.update(request);
     console.log('Updated session:', response.data);
 
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.status(200).json({ message: 'Session updated successfully', response: response.data });
   } catch (err) {
     console.error('Error:', err.message);
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.status(500).json({ error: err.message });
   }
 };
