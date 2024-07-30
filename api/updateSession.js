@@ -1,8 +1,5 @@
 const { google } = require('googleapis');
 const { GoogleAuth } = require('google-auth-library');
-const microCors = require('micro-cors');
-
-const cors = microCors({ allowMethods: ['GET', 'POST', 'OPTIONS'], origin: '*' });
 
 const sheets = google.sheets('v4');
 
@@ -62,4 +59,4 @@ const handler = async (req, res) => {
   }
 };
 
-module.exports = cors(handler);
+module.exports = handler;
