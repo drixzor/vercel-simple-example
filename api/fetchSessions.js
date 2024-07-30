@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
 
     const request = {
       spreadsheetId: sheetId,
-      range: 'Sheet2!A:G',
+      range: 'Sheet2!A:H', // Ensure the range includes the identifier column
       auth: authClient,
     };
 
@@ -43,7 +43,9 @@ module.exports = async (req, res) => {
     console.log('Rows:', rows);
 
     if (rows && rows.length) {
-      res.status(200).json(rows);
+      // Add index to each row
+      const indexedRows = rows.map((row, index) => [index, ...row]);
+      res.status(200).json(indexedRows);
     } else {
       res.status(404).json({ error: 'No sessions found' });
     }
