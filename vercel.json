@@ -8,6 +8,10 @@
     {
       "src": "api/fetchBookings.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "api/fetchSessions.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
@@ -18,6 +22,10 @@
     {
       "src": "/api/fetchBookings",
       "dest": "api/fetchBookings.js"
+    },
+    {
+      "src": "/api/fetchSessions",
+      "dest": "api/fetchSessions.js"
     }
   ]
 }
