@@ -18,12 +18,13 @@ async function authenticate() {
 }
 
 const handler = async (req, res) => {
+  // Set common CORS headers
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
   if (req.method === 'OPTIONS') {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    res.status(204).end();
-    return;
+    return res.status(204).end();
   }
 
   if (req.method !== 'POST') {
@@ -54,11 +55,9 @@ const handler = async (req, res) => {
     const response = await sheets.spreadsheets.values.update(request);
     console.log('Updated session:', response.data);
 
-    res.setHeader('Access-Control-Allow-Origin', '*');
     res.status(200).json({ message: 'Session updated successfully', response: response.data });
   } catch (err) {
     console.error('Error:', err.message);
-    res.setHeader('Access-Control-Allow-Origin', '*');
     res.status(500).json({ error: err.message });
   }
 };
