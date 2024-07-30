@@ -29,15 +29,15 @@ const handler = async (req, res) => {
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 
-  const { index, identifier, session } = req.body;
+  const { index, session } = req.body;
 
-  console.log('Received data:', { index, identifier, session }); // Log the data
+  console.log('Received data:', { index, session }); // Log the data
 
   try {
     const authClient = await authenticate();
     const sheetId = process.env.GOOGLE_SHEETS_SHEET_ID;
 
-    const range = `Sheet2!B${index + 2}:H${index + 2}`; // Adjust for 0-based index and header row
+    const range = `Sheet2!A${index + 2}:G${index + 2}`; // Adjust for 0-based index and header row
     const valueInputOption = 'RAW';
     const values = [session];
 
